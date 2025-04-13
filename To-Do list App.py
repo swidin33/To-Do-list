@@ -50,7 +50,9 @@ class App(tk.Tk):
         self.btn_mark.grid(row=3, column=4, padx=5, pady=5)
 
     def refresh_tasks(self):
-        numbered_tasks = [f"{i + 1}. {task}" for i, task in enumerate(self.tasks)]
+        numbered_tasks = []
+        for i, task in enumerate(self.tasks, start=1):
+            numbered_tasks.append(f"{i}. {task}")
         self.combobox["values"] = numbered_tasks
         self.combobox.set("Tasks")
 
@@ -63,8 +65,9 @@ class App(tk.Tk):
             self.entry_add.delete(0, tk.END)
 
     def remove_tasks(self):
-            task_to_remove = int(self.entry_remove.get()) - 1
+
             try:
+                task_to_remove = int(self.entry_remove.get()) - 1
                 if 0 <= task_to_remove < len(self.tasks):
                     self.tasks.pop(task_to_remove)
                     self.refresh_tasks()
@@ -75,8 +78,8 @@ class App(tk.Tk):
                 messagebox.showerror("Error!", "Invalid task index")
 
     def mark_tasks(self):
-        task_to_mark = int(self.entry_mark.get()) - 1
         try:
+            task_to_mark = int(self.entry_mark.get()) - 1
             if 0 <= task_to_mark < len(self.tasks):
                 if not self.tasks[task_to_mark].endswith(" (Completed)"):
                     self.tasks[task_to_mark] += " (Completed)"
